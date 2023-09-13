@@ -1,6 +1,6 @@
 package api
 
-import "github.com/polarisbase/polaris-go/internal/adapters/domain/common"
+import "github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
 
 type Option struct {
 	*common.BaseOption

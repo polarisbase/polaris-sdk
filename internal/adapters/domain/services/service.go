@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/common"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
 )
 
 type ServiceBase[serviceOptionType common.OptionService] struct {

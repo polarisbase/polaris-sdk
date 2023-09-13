@@ -1,10 +1,10 @@
 package pbsdk
 
 import (
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/common"
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/services/api"
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/services/postgres"
-	"github.com/polarisbase/polaris-go/pbshared"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/api"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/postgres"
+	"github.com/polarisbase/polaris-sdk/pbshared"
 )
 
 func NewApiService(applicationName string, options ...common.Option) pbshared.ApiService {

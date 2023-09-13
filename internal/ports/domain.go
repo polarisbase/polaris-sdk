@@ -3,9 +3,9 @@ package ports
 import (
 	"sync"
 
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/common"
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/services"
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/services/api"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/api"
 )
 
 type Service interface {

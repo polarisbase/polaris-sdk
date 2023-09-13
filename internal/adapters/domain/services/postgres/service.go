@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/common"
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/services"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services"
 )
 
 type Service struct {

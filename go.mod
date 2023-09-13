@@ -1,4 +1,4 @@
-module github.com/polarisbase/polaris-go
+module github.com/polarisbase/polaris-sdk
 
 go 1.21
 

@@ -2,7 +2,7 @@ package pboptions
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/polarisbase/polaris-go/internal/adapters/domain/services/api"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/api"
 )
 
 var ApiServiceOptions ApiServiceOption = ApiServiceOption{}
