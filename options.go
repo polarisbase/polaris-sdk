@@ -2,10 +2,10 @@ package pbsdk
 
 import "github.com/polarisbase/polaris-sdk/pboptions"
 
-var Options Option = Option{
+var Options option = option{
 	ApiService: pboptions.ApiServiceOptions,
 }
 
-type Option struct {
+type option struct {
 	ApiService pboptions.ApiServiceOption
 }
