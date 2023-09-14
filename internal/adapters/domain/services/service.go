@@ -197,7 +197,7 @@ func (s *ServiceBase[serviceOptionType]) Start() error {
 	return nil
 }
 
-func NewBase[serviceOptionType common.OptionService](serviceSysName common.ServiceName, serviceImplementation interface{}, options ...common.Option) *ServiceBase[serviceOptionType] {
+func NewBase[serviceOptionType common.OptionService](serviceSysName common.ServiceName, serviceImplementation interface{}) *ServiceBase[serviceOptionType] {
 	s := &ServiceBase[serviceOptionType]{
 		serviceSysName: serviceSysName,
 		serviceImplementation: serviceImplementation,
@@ -208,16 +208,6 @@ func NewBase[serviceOptionType common.OptionService](serviceSysName common.Servi
 		shouldContinue, err := s.OnInternalApplyOptionsError(err)
 		if !shouldContinue {
 			fmtErr := fmt.Errorf("failed to apply defaults for internal api service %s: %w", s.serviceSysName, err)
-			fmt.Println(fmtErr.Error())
-			return nil
-		}
-	}
-
-	// Apply the given options.
-	if err := s.ApplyOptions(options...); err != nil {
-		shouldContinue, err := s.OnInternalApplyOptionsError(err)
-		if !shouldContinue {
-			fmtErr := fmt.Errorf("failed to apply options for internal api service %s: %w", s.serviceSysName, err)
 			fmt.Println(fmtErr.Error())
 			return nil
 		}
