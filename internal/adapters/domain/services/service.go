@@ -10,6 +10,7 @@ import (
 
 type ServiceBase[serviceOptionType common.OptionService] struct {
 	serviceSysName              common.ServiceName
+	serviceImplementation       interface{}
 	serviceName                 string
 	serviceEventChannel         chan interface{}
 	onInternalApplyOptionsError func(err error) (shouldContinue bool, errOut error)
@@ -34,6 +35,11 @@ func (s *ServiceBase[serviceOptionType]) GetName() string {
 // GetServiceSystemName gets the system name of the service.
 func (s *ServiceBase[serviceOptionType]) GetServiceSystemName() common.ServiceName {
 	return s.serviceSysName
+}
+
+// getServiceImplementation gets the service implementation.
+func (s *ServiceBase[serviceOptionType]) getServiceImplementation() interface{} {
+	return s.serviceImplementation
 }
 
 // ApplyDefaults applies the default options to the service.
@@ -85,6 +91,18 @@ func (s *ServiceBase[serviceOptionType]) SetAsNonExacutable(isNonExecutable bool
 func (s *ServiceBase[serviceOptionType]) ApplyOptions(options ...common.Option) error {
 	for _, opt := range options {
 
+		if opt == nil {
+			continue
+		}
+
+		if opt.GetOptionName() == "" {
+			continue
+		}
+
+		if opt.GetServiceName() != s.serviceSysName {
+			continue
+		}
+
 		if optServiceOption, ok := opt.(common.OptionService); ok {
 			if err := optServiceOption.ApplyOptionFunction(s); err != nil {
 				return err
@@ -92,7 +110,7 @@ func (s *ServiceBase[serviceOptionType]) ApplyOptions(options ...common.Option) 
 		}
 
 		if optServiceOption, ok := opt.(serviceOptionType); ok {
-			if err := optServiceOption.ApplyOptionFunction(s); err != nil {
+			if err := optServiceOption.ApplyOptionFunction(s.getServiceImplementation()); err != nil {
 				return err
 			}
 		}
@@ -179,9 +197,10 @@ func (s *ServiceBase[serviceOptionType]) Start() error {
 	return nil
 }
 
-func NewBase[serviceOptionType common.OptionService](serviceSysName common.ServiceName, options ...common.Option) *ServiceBase[serviceOptionType] {
+func NewBase[serviceOptionType common.OptionService](serviceSysName common.ServiceName, serviceImplementation interface{}, options ...common.Option) *ServiceBase[serviceOptionType] {
 	s := &ServiceBase[serviceOptionType]{
 		serviceSysName: serviceSysName,
+		serviceImplementation: serviceImplementation,
 	}
 
 	// Apply the default options.

@@ -2,12 +2,11 @@ package pbshared
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
 )
 
 type Service interface {
 	GetName() string
-	GetServiceSystemName() common.ServiceName
+	GetServiceSystemName() ServiceName
 	Start() error
 }
 

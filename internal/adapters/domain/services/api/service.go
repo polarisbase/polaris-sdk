@@ -71,7 +71,7 @@ func New(applicationName string, options ...common.Option) *Service {
 	}
 
 	// Set the base service
-	s.ServiceBase = services.NewBase[common.OptionServiceApi](common.API_FIBER_SERVICE, options...)
+	s.ServiceBase = services.NewBase[common.OptionServiceApi](common.API_FIBER_SERVICE, s, options...)
 
 	// Create the fiber router.
 	if s.fiber == nil {
