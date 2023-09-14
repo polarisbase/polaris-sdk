@@ -13,3 +13,15 @@ type BaseOption struct {
 	OptionName     string
 	OptionFunction func(obj interface{}) error
 }
+
+func (o *BaseOption) GetServiceName() ServiceName {
+	return o.ServiceName
+}
+
+func (o *BaseOption) GetOptionName() string {
+	return o.OptionName
+}
+
+func (o *BaseOption) ApplyOptionFunction(obj interface{}) error {
+	return o.OptionFunction(obj)
+}

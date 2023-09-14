@@ -2,6 +2,7 @@ package pboptions
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/api"
 )
 
@@ -9,7 +10,7 @@ var ApiServiceOptions ApiServiceOption = ApiServiceOption{}
 
 type ApiServiceOption struct{}
 
-func (ApiServiceOption) SetFiberPortsToListen(portsToListen []string) *api.Option {
+func (ApiServiceOption) SetFiberPortsToListen(portsToListen []string) common.OptionServiceApi {
 	return api.NewOption("set-fiber-ports-to-listen", func(obj interface{}) error {
 		if service, ok := obj.(*api.Service); ok {
 			service.SetFiberPortsToListen(portsToListen)
@@ -18,7 +19,7 @@ func (ApiServiceOption) SetFiberPortsToListen(portsToListen []string) *api.Optio
 	})
 }
 
-func (ApiServiceOption) SetFiberApp(app *fiber.App) *api.Option {
+func (ApiServiceOption) SetFiberApp(app *fiber.App) common.OptionServiceApi {
 	return api.NewOption("set-fiber-app", func(obj interface{}) error {
 		if service, ok := obj.(*api.Service); ok {
 			service.SetAsNonExacutable(true)
@@ -28,7 +29,7 @@ func (ApiServiceOption) SetFiberApp(app *fiber.App) *api.Option {
 	})
 }
 
-func (ApiServiceOption) UseFiberRouterPrefix(prefix string) *api.Option {
+func (ApiServiceOption) UseFiberRouterPrefix(prefix string) common.OptionServiceApi {
 	return api.NewOption("use-fiber-path-prefix", func(obj interface{}) error {
 		if service, ok := obj.(*api.Service); ok {
 			service.SetFiberRouterPrefix(prefix)
