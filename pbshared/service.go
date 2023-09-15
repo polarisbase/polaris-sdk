@@ -13,6 +13,7 @@ type Service interface {
 type ApiService interface {
 	Service
 	DirectAccessFiber() *fiber.App
+	DirectAccessFiberRouter() fiber.Router
 }
 
 type PostgresService interface {
