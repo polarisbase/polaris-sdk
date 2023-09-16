@@ -1,6 +1,7 @@
 package session
 
 import (
+	"github.com/google/uuid"
 	userCommon "github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/common"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/pointmass/gorm_sqllite"
 	"gorm.io/gorm"
@@ -13,6 +14,7 @@ type Provider struct {
 
 func (p *Provider) NewSession(user userCommon.User) (userCommon.Session, error) {
 	session := &BaseSession{
+		ID:     uuid.New().String(),
 		UserID: user.GetID(),
 	}
 	res := p.sessions.Create(session)

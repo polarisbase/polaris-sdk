@@ -2,17 +2,36 @@ package common
 
 import "fmt"
 
-var (
-	ErrUserAlreadyExists          error = fmt.Errorf("user already exists")
-	ErrUserNotFound               error = fmt.Errorf("user not found")
-	ErrInvalidPassword            error = fmt.Errorf("invalid password")
-	ErrInvalidEmail               error = fmt.Errorf("invalid email")
-	ErrInvalidUsername            error = fmt.Errorf("invalid username")
-	ErrInvalidSession             error = fmt.Errorf("invalid session")
-	ErrInvalidCredentials         error = fmt.Errorf("invalid credentials")
-	ErrInvalidSessionToken        error = fmt.Errorf("invalid session token")
-	ErrInvalidSessionID           error = fmt.Errorf("invalid session id")
-	ErrInvalidSessionRefreshToken error = fmt.Errorf("invalid session refresh token")
-	ErrInvalidSessionProvider     error = fmt.Errorf("invalid session provider")
-	ErrInvalidSessionUserID       error = fmt.Errorf("invalid session user id")
-)
+var PossibleErrors = Errors{
+	UserAlreadyExists:          NewError("user already exists"),
+	UserNotFound:               NewError("user not found"),
+	InvalidPassword:            NewError("invalid password"),
+	InvalidEmail:               NewError("invalid email"),
+	InvalidUsername:            NewError("invalid username"),
+	InvalidSession:             NewError("invalid session"),
+	InvalidCredentials:         NewError("invalid credentials"),
+	InvalidSessionToken:        NewError("invalid session token"),
+	InvalidSessionID:           NewError("invalid session id"),
+	InvalidSessionRefreshToken: NewError("invalid session refresh token"),
+	InvalidSessionProvider:     NewError("invalid session provider"),
+	InvalidSessionUserID:       NewError("invalid session user id"),
+}
+
+func NewError(s string) error {
+	return fmt.Errorf(s)
+}
+
+type Errors struct {
+	UserAlreadyExists          error
+	UserNotFound               error
+	InvalidPassword            error
+	InvalidEmail               error
+	InvalidUsername            error
+	InvalidSession             error
+	InvalidCredentials         error
+	InvalidSessionToken        error
+	InvalidSessionID           error
+	InvalidSessionRefreshToken error
+	InvalidSessionProvider     error
+	InvalidSessionUserID       error
+}

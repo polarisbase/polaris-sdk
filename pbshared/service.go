@@ -24,4 +24,5 @@ type PostgresService interface {
 type AuthService interface {
 	Service
 	GetActions() AuthActions
+	GetPossibleErrors() AuthPossibleErrors
 }

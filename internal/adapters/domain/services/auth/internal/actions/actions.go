@@ -25,7 +25,7 @@ func (a *Actions) SignIn(provider string, email string, password string) (sessio
 	}
 
 	if !user.ValidatePassword(password) {
-		return "", "", common.ErrInvalidCredentials
+		return "", "", common.PossibleErrors.InvalidCredentials
 	}
 
 	session, err := a.sessions.NewSession(user)

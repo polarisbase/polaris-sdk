@@ -8,3 +8,4 @@ import (
 type Option = common.Option
 type ServiceName = common.ServiceName
 type AuthActions = authCommon.Actions
+type AuthPossibleErrors = authCommon.Errors

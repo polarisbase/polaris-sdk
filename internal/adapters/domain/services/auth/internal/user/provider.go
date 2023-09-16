@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/google/uuid"
 	userCommon "github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/common"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/pointmass/gorm_sqllite"
 	"gorm.io/gorm"
@@ -40,6 +41,7 @@ func (p *Provider) FindByUsername(username string) (userCommon.User, error) {
 
 func (p *Provider) NewBasic(email string, password string) (userCommon.User, error) {
 	user := &BaseUser{
+		ID:             uuid.New().String(),
 		Email:          email,
 		PasswordHashed: password,
 	}
@@ -47,7 +49,7 @@ func (p *Provider) NewBasic(email string, password string) (userCommon.User, err
 	// check if user exists
 	_, err := p.FindByEmail(email)
 	if err == nil {
-		return nil, userCommon.ErrUserAlreadyExists
+		return nil, userCommon.PossibleErrors.UserAlreadyExists
 	}
 
 	res := p.users.Create(user)

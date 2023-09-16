@@ -21,6 +21,11 @@ type Service struct {
 	actions         userCommon.Actions
 }
 
+// GetPossibleErrors returns the possible errors.
+func (s *Service) GetPossibleErrors() userCommon.Errors {
+	return userCommon.PossibleErrors
+}
+
 func (s *Service) GetActions() userCommon.Actions {
 	return s.actions
 }
