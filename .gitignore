@@ -21,3 +21,5 @@
 .DS_Store
 .idea/
 go.work
+/example/sessions.db
+/example/users.db

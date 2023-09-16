@@ -70,7 +70,7 @@ func New(applicationName string, options ...common.Option) *Service {
 	}
 
 	// Set the base service
-	s.ServiceBase = services.NewBase[common.OptionServicePostgres](common.DB_POSTGRES_SERVICE, s)
+	s.ServiceBase = services.NewBase[common.OptionServicePostgres](common.DB_POSTGRES_SERVICE, applicationName, s)
 
 	// Apply options
 	s.ServiceBase.ApplyOptions(options...)

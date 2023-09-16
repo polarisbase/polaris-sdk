@@ -10,8 +10,8 @@ var ApiServiceOptions ApiServiceOption = ApiServiceOption{}
 
 type ApiServiceOption struct{}
 
-func (ApiServiceOption) SetFiberPortsToListen(portsToListen []string) common.OptionServiceApi {
-	return api.NewOption("set-fiber-ports-to-listen", func(obj interface{}) error {
+func (ApiServiceOption) SetFiberPortsToListen(instanceName string, portsToListen []string) common.OptionServiceApi {
+	return api.NewOption("set-fiber-ports-to-listen", instanceName, func(obj interface{}) error {
 		if service, ok := obj.(*api.Service); ok {
 			service.SetFiberPortsToListen(portsToListen)
 		}
@@ -19,18 +19,18 @@ func (ApiServiceOption) SetFiberPortsToListen(portsToListen []string) common.Opt
 	})
 }
 
-func (ApiServiceOption) SetFiberApp(app *fiber.App) common.OptionServiceApi {
-	return api.NewOption("set-fiber-app", func(obj interface{}) error {
+func (ApiServiceOption) SetFiberApp(instanceName string, app *fiber.App) common.OptionServiceApi {
+	return api.NewOption("set-fiber-app", instanceName, func(obj interface{}) error {
 		if service, ok := obj.(*api.Service); ok {
-			service.SetAsNonExacutable(true)
+			service.SetAsNonExecutable(true)
 			service.SetFiberApp(app)
 		}
 		return nil
 	})
 }
 
-func (ApiServiceOption) UseFiberRouterPrefix(prefix string) common.OptionServiceApi {
-	return api.NewOption("use-fiber-path-prefix", func(obj interface{}) error {
+func (ApiServiceOption) UseFiberRouterPrefix(instanceName string, prefix string) common.OptionServiceApi {
+	return api.NewOption("use-fiber-path-prefix", instanceName, func(obj interface{}) error {
 		if service, ok := obj.(*api.Service); ok {
 			service.SetFiberRouterPrefix(prefix)
 		}

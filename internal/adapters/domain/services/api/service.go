@@ -48,14 +48,14 @@ func (s *Service) SetFiberApp(app *fiber.App) {
 	s.fiber = app
 }
 
-// SetAsNonExacutable sets the service as non executable.
-func (s *Service) SetAsNonExacutable(isNonExecutable bool) {
+// SetAsNonExecutable sets the service as non executable.
+func (s *Service) SetAsNonExecutable(isNonExecutable bool) {
 	s.ServiceBase.SetAsNonExacutable(isNonExecutable)
 }
 
 // Start starts the service.
 func (s *Service) Start() error {
-	fmt.Printf("STARTING SERVICE: %s\n", s.GetName())
+	fmt.Printf("STARTING SERVICE: %s\n", s.GetServiceInstanceName())
 	return s.ServiceBase.Start()
 }
 
@@ -76,7 +76,7 @@ func New(applicationName string, options ...common.Option) *Service {
 	}
 
 	// Set the base service
-	s.ServiceBase = services.NewBase[common.OptionServiceApi](common.API_FIBER_SERVICE, s)
+	s.ServiceBase = services.NewBase[common.OptionServiceApi](common.API_FIBER_SERVICE, applicationName, s)
 
 	// Apply service options
 	s.ServiceBase.ApplyOptions(options...)
@@ -87,9 +87,6 @@ func New(applicationName string, options ...common.Option) *Service {
 	} else {
 		s.fiberRouter = s.fiber.Group(s.fiberRouterPrefix)
 	}
-
-	// Set the service name.
-	s.SetName(applicationName)
 
 	// Set the startup function.
 	s.SetServiceStartupEntrypoint(func() error {

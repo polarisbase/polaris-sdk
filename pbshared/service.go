@@ -5,7 +5,7 @@ import (
 )
 
 type Service interface {
-	GetName() string
+	GetServiceInstanceName() string
 	GetServiceSystemName() ServiceName
 	Start() error
 }
@@ -19,4 +19,9 @@ type ApiService interface {
 type PostgresService interface {
 	Service
 	Connect() error
+}
+
+type AuthService interface {
+	Service
+	GetActions() AuthActions
 }
