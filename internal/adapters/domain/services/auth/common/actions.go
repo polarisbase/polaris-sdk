@@ -15,4 +15,8 @@ type Actions interface {
 	SignOut(
 		sessionID string,
 	) (err error)
+
+	ValidateSession(
+		sessionToken string,
+	) (session Session, err error)
 }

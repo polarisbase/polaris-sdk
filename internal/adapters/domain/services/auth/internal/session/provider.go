@@ -1,22 +1,17 @@
 package session
 
 import (
-	"github.com/google/uuid"
 	userCommon "github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/common"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/pointmass/gorm_sqllite"
 	"gorm.io/gorm"
 )
 
 type Provider struct {
-	sqllite  *gorm_sqllite.Database
 	sessions *gorm.DB
 }
 
 func (p *Provider) NewSession(user userCommon.User) (userCommon.Session, error) {
-	session := &BaseSession{
-		ID:     uuid.New().String(),
-		UserID: user.GetID(),
-	}
+	session := NewBasic(user.GetID())
 	res := p.sessions.Create(session)
 	if res.Error != nil {
 		return nil, res.Error
@@ -43,25 +38,17 @@ func (p *Provider) FindByID(id string) (userCommon.Session, error) {
 	return session, nil
 }
 
-func (p *Provider) FindByToken(token string) (userCommon.Session, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (p *Provider) FindByRefreshToken(refreshToken string) (userCommon.Session, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func NewProvider() *Provider {
+func NewProvider(unifiedGormDb *gorm.DB) *Provider {
 
 	p := &Provider{}
 
-	p.sqllite = gorm_sqllite.DatabaseDriver()
-
-	sessions := p.sqllite.NewDatabase("sessions")
-
-	p.sessions = gorm_sqllite.AsGorm(sessions)
+	if unifiedGormDb != nil {
+		p.sessions = unifiedGormDb
+	} else {
+		p.sessions = gorm_sqllite.AsGorm(
+			gorm_sqllite.DatabaseDriver().NewDatabase("sessions"),
+		)
+	}
 
 	if err := p.sessions.AutoMigrate(&BaseSession{}); err != nil {
 		panic(err)

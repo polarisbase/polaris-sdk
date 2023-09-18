@@ -19,3 +19,11 @@ type OptionServiceAuthentication interface {
 type OptionServicePointmass interface {
 	OptionService
 }
+
+type OptionServiceWebHtml interface {
+	OptionService
+}
+
+type OptionServiceAuthWebHtml interface {
+	OptionService
+}

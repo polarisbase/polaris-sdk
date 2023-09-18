@@ -3,7 +3,9 @@ package pbsdk
 import (
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/api"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/authweb"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/postgres"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/webhtml"
 	"github.com/polarisbase/polaris-sdk/pbshared"
 )
 
@@ -23,4 +25,15 @@ func NewPostgresService(applicationName string, options ...pbshared.Option) pbsh
 func NewAuthService(applicationName string, options ...pbshared.Option) pbshared.AuthService {
 	authService := auth.New(applicationName, options...)
 	return authService
+}
+
+func NewWebAuthHtmlService(applicationName string, options ...pbshared.Option) pbshared.WebAuthHtmlService {
+	webHtmlService := authweb.New(applicationName, options...)
+	return webHtmlService
+}
+
+// NewWebHtmlService creates a new WebHtml services
+func NewWebHtmlService(applicationName string, options ...pbshared.Option) pbshared.WebHtmlService {
+	webHtmlService := webhtml.New(applicationName, options...)
+	return webHtmlService
 }

@@ -28,10 +28,19 @@ func main() {
 	}
 
 	// Test sign in
-	if sessionId, sessionToken, err := app.Auth.GetActions().SignIn("", "me@travishills.com", "password123"); err != nil {
+	var sessionToken string
+	if sessionId, sessionTokenReturn, err := app.Auth.GetActions().SignIn("", "me@travishills.com", "password123"); err != nil {
 		panic(err)
 	} else {
-		println("User signed in with session:", sessionId, sessionToken)
+		sessionToken = sessionTokenReturn
+		println("User signed in with session:", sessionId, sessionTokenReturn)
+	}
+
+	// Test validate session
+	if session, err := app.Auth.GetActions().ValidateSession(sessionToken); err != nil {
+		panic(err)
+	} else {
+		println("Session validated:", session.GetID())
 	}
 
 	// Start the application

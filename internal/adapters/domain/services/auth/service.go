@@ -10,15 +10,19 @@ import (
 	authApi "github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/internal/api"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/internal/session"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/internal/user"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/pointmass/gorm_sqllite"
+	"gorm.io/gorm"
 )
 
 type Service struct {
 	*services.ServiceBase[common.OptionServiceApi]
-	apiService      *api.Service
-	api             *authApi.Api
-	userProvider    userCommon.UserProvider
-	sessionProvider userCommon.SessionProvider
-	actions         userCommon.Actions
+	unifiedSqlLiteDB *gorm.DB
+	apiService       *api.Service
+	api              *authApi.Api
+	userProvider     userCommon.UserProvider
+	sessionProvider  userCommon.SessionProvider
+	jwtSettings      *userCommon.JwtSettings
+	actions          userCommon.Actions
 }
 
 // GetPossibleErrors returns the possible errors.
@@ -26,6 +30,7 @@ func (s *Service) GetPossibleErrors() userCommon.Errors {
 	return userCommon.PossibleErrors
 }
 
+// GetActions returns the actions.
 func (s *Service) GetActions() userCommon.Actions {
 	return s.actions
 }
@@ -33,11 +38,19 @@ func (s *Service) GetActions() userCommon.Actions {
 // ApplyLocalDefaults applies the default options.
 func (s *Service) ApplyLocalDefaults() error {
 
+	// Initialize db
+	s.unifiedSqlLiteDB = gorm_sqllite.AsGorm(
+		gorm_sqllite.DatabaseDriver().NewDatabase("auth"),
+	)
+
 	// Initialize user provider
-	s.userProvider = user.NewProvider()
+	s.userProvider = user.NewProvider(s.unifiedSqlLiteDB)
 
 	// Initialize session provider
-	s.sessionProvider = session.NewProvider()
+	s.sessionProvider = session.NewProvider(s.unifiedSqlLiteDB)
+
+	// Initialize jwt settings
+	s.jwtSettings = &userCommon.JwtSettings{}
 
 	return nil
 }
@@ -66,7 +79,7 @@ func New(applicationName string, options ...common.Option) *Service {
 	s.ServiceBase.ApplyOptions(options...)
 
 	// Initialize actions
-	s.actions = actions.New(s.userProvider, s.sessionProvider)
+	s.actions = actions.New(s.userProvider, s.sessionProvider, s.jwtSettings)
 
 	// Initialize api service
 	if s.apiService == nil {

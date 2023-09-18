@@ -26,3 +26,11 @@ type AuthService interface {
 	GetActions() AuthActions
 	GetPossibleErrors() AuthPossibleErrors
 }
+
+type WebHtmlService interface {
+	Service
+}
+
+type WebAuthHtmlService interface {
+	Service
+}

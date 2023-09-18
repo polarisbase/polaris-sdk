@@ -1,10 +1,14 @@
 package actions
 
-import "github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/common"
+import (
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/common"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/internal/session"
+)
 
 type Actions struct {
-	users    common.UserProvider
-	sessions common.SessionProvider
+	users       common.UserProvider
+	sessions    common.SessionProvider
+	jwtSettings *common.JwtSettings
 }
 
 func (a *Actions) RegisterNewUser(email string, password string) (userID string, err error) {
@@ -33,7 +37,12 @@ func (a *Actions) SignIn(provider string, email string, password string) (sessio
 		return "", "", err
 	}
 
-	return session.GetID(), session.GetToken(), nil
+	token, err := session.AsToken(a.jwtSettings)
+	if err != nil {
+		return "", "", err
+	}
+
+	return session.GetID(), token, nil
 }
 
 func (a *Actions) SignOut(sessionID string) (err error) {
@@ -41,14 +50,29 @@ func (a *Actions) SignOut(sessionID string) (err error) {
 	panic("implement me")
 }
 
+func (a *Actions) ValidateSession(sessionToken string) (sessionOut common.Session, err error) {
+	sessionOut, valid, err := session.Verify(a.jwtSettings, sessionToken)
+	if err != nil {
+		return nil, err
+	}
+
+	if !valid {
+		return nil, common.PossibleErrors.InvalidSession
+	}
+
+	return sessionOut, nil
+}
+
 func New(
 	users common.UserProvider,
 	sessions common.SessionProvider,
+	jwtSettings *common.JwtSettings,
 ) *Actions {
 	a := &Actions{}
 
 	a.users = users
 	a.sessions = sessions
+	a.jwtSettings = jwtSettings
 
 	return a
 }

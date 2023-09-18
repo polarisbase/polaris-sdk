@@ -15,6 +15,15 @@ var PossibleErrors = Errors{
 	InvalidSessionRefreshToken: NewError("invalid session refresh token"),
 	InvalidSessionProvider:     NewError("invalid session provider"),
 	InvalidSessionUserID:       NewError("invalid session user id"),
+	InvalidSigningAlgorithm:    NewError("invalid signing algorithm"),
+	MissingKeyID:               NewError("missing key id"),
+	MissingIssuer:              NewError("missing issuer"),
+	MissingSubject:             NewError("missing subject"),
+	MissingAudience:            NewError("missing audience"),
+	MissingExpirationTime:      NewError("missing expiration time"),
+	MissingNotBefore:           NewError("missing not before"),
+	MissingIssuedAt:            NewError("missing issued at"),
+	MissingJWTID:               NewError("missing jwt id"),
 }
 
 func NewError(s string) error {
@@ -34,4 +43,13 @@ type Errors struct {
 	InvalidSessionRefreshToken error
 	InvalidSessionProvider     error
 	InvalidSessionUserID       error
+	InvalidSigningAlgorithm    error
+	MissingKeyID               error
+	MissingIssuer              error
+	MissingSubject             error
+	MissingAudience            error
+	MissingExpirationTime      error
+	MissingNotBefore           error
+	MissingIssuedAt            error
+	MissingJWTID               error
 }

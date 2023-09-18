@@ -3,14 +3,7 @@ package common
 type Session interface {
 	GetID() string
 	GetUserID() string
-	GetToken() string
-	GetRefreshToken() string
+	AsToken(settings *JwtSettings) (jwtTokenString string, err error)
 	GetExpiresAt() int64
 	GetNotBefore() int64
-	GetCreatedAt() int64
-	GetUpdatedAt() int64
-	GetDeletedAt() int64
-
-	ValidateToken(token string) bool
-	ValidateRefreshToken(refreshToken string) bool
 }

@@ -8,8 +8,7 @@ import (
 )
 
 type Provider struct {
-	sqllite *gorm_sqllite.Database
-	users   *gorm.DB
+	users *gorm.DB
 }
 
 func (p *Provider) FindByEmail(email string) (userCommon.User, error) {
@@ -41,10 +40,12 @@ func (p *Provider) FindByUsername(username string) (userCommon.User, error) {
 
 func (p *Provider) NewBasic(email string, password string) (userCommon.User, error) {
 	user := &BaseUser{
-		ID:             uuid.New().String(),
-		Email:          email,
-		PasswordHashed: password,
+		ID: uuid.New().String(),
 	}
+
+	user.SetEmail(email)
+
+	user.SetPassword(password)
 
 	// check if user exists
 	_, err := p.FindByEmail(email)
@@ -59,15 +60,17 @@ func (p *Provider) NewBasic(email string, password string) (userCommon.User, err
 	return user, nil
 }
 
-func NewProvider() *Provider {
+func NewProvider(unifiedGormDb *gorm.DB) *Provider {
 
 	p := &Provider{}
 
-	p.sqllite = gorm_sqllite.DatabaseDriver()
-
-	users := p.sqllite.NewDatabase("users")
-
-	p.users = gorm_sqllite.AsGorm(users)
+	if unifiedGormDb != nil {
+		p.users = unifiedGormDb
+	} else {
+		p.users = gorm_sqllite.AsGorm(
+			gorm_sqllite.DatabaseDriver().NewDatabase("users"),
+		)
+	}
 
 	if err := p.users.AutoMigrate(&BaseUser{}); err != nil {
 		panic(err)
