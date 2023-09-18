@@ -10,8 +10,6 @@ import (
 
 type Service interface {
 	GetServiceSystemName() common.ServiceName
-	SetName(name string)
-	GetName() string
 
 	SetOnInternalApplyOptionsError(onInternalApplyOptionsError func(err error) (shouldContinue bool, errOut error))
 	OnInternalApplyOptionsError(errIn error) (shouldContinue bool, err error)

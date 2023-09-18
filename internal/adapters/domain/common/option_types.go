@@ -12,3 +12,18 @@ type OptionServicePostgres interface {
 	OptionService
 }
 
+type OptionServiceAuthentication interface {
+	OptionService
+}
+
+type OptionServicePointmass interface {
+	OptionService
+}
+
+type OptionServiceWebHtml interface {
+	OptionService
+}
+
+type OptionServiceAuthWebHtml interface {
+	OptionService
+}

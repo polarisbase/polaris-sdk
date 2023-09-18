@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -11,7 +12,6 @@ import (
 type ServiceBase[serviceOptionType common.OptionService] struct {
 	serviceSysName              common.ServiceName
 	serviceImplementation       interface{}
-	serviceName                 string
 	serviceEventChannel         chan interface{}
 	onInternalApplyOptionsError func(err error) (shouldContinue bool, errOut error)
 	useHeartbeat                bool
@@ -20,16 +20,12 @@ type ServiceBase[serviceOptionType common.OptionService] struct {
 	serviceStartupEntrypoint    func() error
 	nonExacutable               bool
 	allowRunAsNonExecutable     bool
+	serviceInstanceName         string
 }
 
-// SetName sets the name of the service.
-func (s *ServiceBase[serviceOptionType]) SetName(name string) {
-	s.serviceName = name
-}
-
-// GetName gets the name of the service.
-func (s *ServiceBase[serviceOptionType]) GetName() string {
-	return s.serviceName
+// GetServiceInstanceName gets the instance name of the service.
+func (s *ServiceBase[serviceOptionType]) GetServiceInstanceName() string {
+	return s.serviceInstanceName
 }
 
 // GetServiceSystemName gets the system name of the service.
@@ -101,6 +97,14 @@ func (s *ServiceBase[serviceOptionType]) ApplyOptions(options ...common.Option) 
 
 		if opt.GetServiceName() != s.serviceSysName {
 			continue
+		}
+
+		if opt.GetServiceInstanceName() != "*" {
+
+			if strings.ToLower(opt.GetServiceInstanceName()) != strings.ToLower(s.serviceInstanceName) {
+				continue
+			}
+
 		}
 
 		if optServiceOption, ok := opt.(common.OptionService); ok {
@@ -181,7 +185,7 @@ func (s *ServiceBase[serviceOptionType]) Start() error {
 		if !s.allowRunAsNonExecutable {
 			return fmt.Errorf("service is marked as non executable")
 		} else {
-			fmt.Printf("WARNING: Service %s is marked as non executable (but is allowed to run)\n", s.serviceName)
+			fmt.Printf("WARNING: Service %s is marked as non executable (but is allowed to run)\n", s.serviceInstanceName)
 		}
 	}
 
@@ -197,9 +201,10 @@ func (s *ServiceBase[serviceOptionType]) Start() error {
 	return nil
 }
 
-func NewBase[serviceOptionType common.OptionService](serviceSysName common.ServiceName, serviceImplementation interface{}) *ServiceBase[serviceOptionType] {
+func NewBase[serviceOptionType common.OptionService](serviceSysName common.ServiceName, serviceInstanceName string, serviceImplementation interface{}) *ServiceBase[serviceOptionType] {
 	s := &ServiceBase[serviceOptionType]{
-		serviceSysName: serviceSysName,
+		serviceSysName:        serviceSysName,
+		serviceInstanceName:   serviceInstanceName,
 		serviceImplementation: serviceImplementation,
 	}
 

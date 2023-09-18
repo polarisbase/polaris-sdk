@@ -9,8 +9,8 @@ var PostgresServiceOptions PostgresServiceOption = PostgresServiceOption{}
 
 type PostgresServiceOption struct{}
 
-func (PostgresServiceOption) SetPostgresConnection(connection string) common.OptionServicePostgres {
-	return postgres.NewOption("set-postgres-connection", func(obj interface{}) error {
+func (PostgresServiceOption) SetPostgresConnection(instanceName string, connection string) common.OptionServicePostgres {
+	return postgres.NewOption("set-postgres-connection", instanceName, func(obj interface{}) error {
 		if service, ok := obj.(*postgres.Service); ok {
 			// service.SetPostgresConnection(connection)
 			_ = service
