@@ -34,3 +34,7 @@ type WebHtmlService interface {
 type WebAuthHtmlService interface {
 	Service
 }
+
+type WebUI interface {
+	
+}

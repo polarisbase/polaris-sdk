@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/common"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/api"
@@ -11,18 +12,21 @@ import (
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/internal/session"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/internal/user"
 	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/pointmass/gorm_sqllite"
+	"github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/auth/internal/ui"
+	webUICommon "github.com/polarisbase/polaris-sdk/internal/adapters/domain/services/webui/common"
 	"gorm.io/gorm"
 )
 
 type Service struct {
 	*services.ServiceBase[common.OptionServiceApi]
-	unifiedSqlLiteDB *gorm.DB
-	apiService       *api.Service
-	api              *authApi.Api
-	userProvider     userCommon.UserProvider
-	sessionProvider  userCommon.SessionProvider
-	jwtSettings      *userCommon.JwtSettings
-	actions          userCommon.Actions
+	unifiedSqlLiteDB 	*gorm.DB
+	apiService       	*api.Service
+	api              	*authApi.Api
+	webui 				webUICommon.WebUI
+	userProvider     	userCommon.UserProvider
+	sessionProvider  	userCommon.SessionProvider
+	jwtSettings      	*userCommon.JwtSettings
+	actions          	userCommon.Actions
 }
 
 // GetPossibleErrors returns the possible errors.
@@ -52,6 +56,7 @@ func (s *Service) ApplyLocalDefaults() error {
 	// Initialize jwt settings
 	s.jwtSettings = &userCommon.JwtSettings{}
 
+	// Return nil
 	return nil
 }
 
@@ -89,6 +94,12 @@ func New(applicationName string, options ...common.Option) *Service {
 	// Initialize api
 	if s.api == nil {
 		s.api = authApi.New(s.apiService, s.actions)
+	}
+
+	// Initialize webui
+	if s.webui == nil {
+		s.webui = ui.New("/site")
+		s.webui.Bootstrap(s.apiService)
 	}
 
 	// Set the startup function.

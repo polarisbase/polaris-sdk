@@ -35,12 +35,5 @@ func NewApp(options ...pbshared.Option) *App {
 		pbsdk.Options.ApiService.UseFiberRouterPrefix("main-webhtml", "/auth"),
 	)*/
 
-	// Create a new WebAuthHtml service
-	app.WebAuthHtml = pbsdk.NewWebAuthHtmlService(
-		"main-webauthhtml",
-		pbsdk.Options.ApiService.SetFiberApp("main-webauthhtml", app.Api.DirectAccessFiber()),
-		pbsdk.Options.ApiService.UseFiberRouterPrefix("main-webauthhtml", "/auth-site"),
-	)
-
 	return app
 }
