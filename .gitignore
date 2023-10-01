@@ -21,6 +21,5 @@
 .DS_Store
 .idea/
 go.work
-go.work.sum
-/example/sessions.db
-/example/users.db
+/examples/sessions.db
+/examples/users.db
