@@ -9,7 +9,9 @@ func main() {
 	// Create new Fiber instance
 	api := fiber.New()
 	// Register authentication service
-	authentication.New(api, "auth")
+	authentication.New(api, "api/auth")
 	// Start server on http://localhost:3000
-	api.Listen(":3000")
+	if err := api.Listen(":3000"); err != nil {
+		panic(err)
+	}
 }

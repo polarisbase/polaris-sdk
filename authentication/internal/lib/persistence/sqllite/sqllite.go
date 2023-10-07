@@ -38,9 +38,10 @@ func (s *SqlLite) Connect() {
 		},
 		Handler: "sqlite",
 		//PostgreSQLURL: "postgres://127.0.0.1:5432/ferretdb",
-		SQLiteURL: "sqlite://ferretdb.db",
+		SQLiteURL: "file:db/",
 	})
 	if err != nil {
+		panic(err)
 		log.Fatal(err)
 	}
 

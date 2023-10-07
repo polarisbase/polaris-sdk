@@ -1,8 +1,6 @@
 package v1
 
-import (
-	"github.com/polarisbase/polaris-sdk/v2/authentication/internal/users/shared"
-)
+import "github.com/polarisbase/polaris-sdk/v2/authentication/internal/sessions/shared"
 
 type Actions struct {
 	dep *shared.Dependencies
