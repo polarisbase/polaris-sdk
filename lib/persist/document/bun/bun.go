@@ -86,7 +86,7 @@ func (s *Store) MigrateUsing(models ...interface{}) (err error) {
 }
 
 // Get the bun database
-func (s *Store) Db() *bun.DB {
+func (s *Store) GetBun() *bun.DB {
 	return s._db
 }
 

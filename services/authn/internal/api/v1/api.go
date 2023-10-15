@@ -18,10 +18,16 @@ func New(dependencies *common.Dependencies) *Api {
 
 	a.dep = dependencies
 
-	// Create the user API
+	// Create an info item
 	a.dep.FiberRouter.Get(
-		fmt.Sprintf("%s", a.prefix),
-		a.Info,
+		fmt.Sprintf("%s/_/create-info", a.prefix),
+		a.CreateInfo,
+	)
+
+	// List the info items
+	a.dep.FiberRouter.Get(
+		fmt.Sprintf("%s/_/list-info", a.prefix),
+		a.ListInfo,
 	)
 
 	return a
