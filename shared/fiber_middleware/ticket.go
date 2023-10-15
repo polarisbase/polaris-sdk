@@ -12,7 +12,9 @@ func Tickets() func(c *fiber.Ctx) error {
 		c.Set("X-Tickets-Info", "Tickets-V1")
 
 		// Set ticket in context
-		c.Locals("ticket", &shared.TicketBase{})
+		c.Locals("ticket", &shared.TicketBase{
+			UserId: "123",
+		})
 
 		// Go to next middleware:
 		return c.Next()

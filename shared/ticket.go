@@ -1,14 +1,22 @@
 package shared
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"context"
+	"github.com/gofiber/fiber/v2"
+)
 
 type Ticket interface {
 	GetUserId() string
 	DoIfAuthenticated(authenticated func() error, unauthenticated func() error) error
+	GetContext() context.Context
 }
 
 type TicketBase struct {
 	UserId string
+}
+
+func (t TicketBase) GetContext() context.Context {
+	return context.TODO() // TODO: implement
 }
 
 func (t TicketBase) GetUserId() string {
