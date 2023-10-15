@@ -5,6 +5,7 @@ go 1.21
 require (
 	github.com/FerretDB/FerretDB v1.11.0
 	github.com/gofiber/fiber/v2 v2.49.1
+
 )
 
 require (

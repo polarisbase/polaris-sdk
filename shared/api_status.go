@@ -3,5 +3,6 @@ package shared
 type ApiResponseStatus string
 
 type ApiMetadata struct {
-	Status ApiResponseStatus `json:"status"`
+	StatusCode int               `json:"status_code"`
+	Status     ApiResponseStatus `json:"status"`
 }
