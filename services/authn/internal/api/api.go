@@ -6,6 +6,7 @@ import (
 	"github.com/polarisbase/polaris-sdk/v3/services/authn/internal/api/common"
 	v1 "github.com/polarisbase/polaris-sdk/v3/services/authn/internal/api/v1"
 	"github.com/polarisbase/polaris-sdk/v3/services/authn/internal/info"
+	"github.com/polarisbase/polaris-sdk/v3/services/authn/internal/user"
 )
 
 type Api struct {
@@ -13,7 +14,7 @@ type Api struct {
 	v1  *v1.Api
 }
 
-func New(fiberRouter fiber.Router, infoActionsProvider *info.ActionsProvider) *Api {
+func New(fiberRouter fiber.Router, infoActionsProvider *info.ActionsProvider, userActionsProvider *user.ActionsProvider) *Api {
 
 	// Create the authentication API
 	a := &Api{}
@@ -25,7 +26,7 @@ func New(fiberRouter fiber.Router, infoActionsProvider *info.ActionsProvider) *A
 	}))
 
 	// Create the shared dependencies
-	a.dep = common.NewDependencies(fiberRouter, infoActionsProvider)
+	a.dep = common.NewDependencies(fiberRouter, infoActionsProvider, userActionsProvider)
 
 	// Create the v1 API
 	a.v1 = v1.New(a.dep)

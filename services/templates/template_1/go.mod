@@ -1,4 +1,4 @@
-module github.com/polarisbase/polaris-sdk/v3/examples/authn
+module github.com/polarisbase/polaris-sdk/v3/services/templates/template_1
 
 go 1.21
 
@@ -15,9 +15,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.49.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/crypto v0.14.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sys v0.13.0 // indirect
-	golang.org/x/term v0.13.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/sys v0.12.0 // indirect
 )
