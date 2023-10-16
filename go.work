@@ -1,0 +1,11 @@
+go 1.21
+
+use (
+	.
+	examples/authn
+	lib/persist
+	services/authn
+	services/authz
+	services/templates/template_1
+	shared
+)
