@@ -9,7 +9,11 @@ import (
 
 func main() {
 	service := fiber.New()
-	service.Use(fiber_middleware.Tickets())
+	service.Use(fiber_middleware.Tickets(
+		func(keyId string) (signingKey string) {
+			return "super-secret-key"
+		},
+	))
 	persistentStore := bun.New()
 	if err := persistentStore.Connect(); err != nil {
 		panic(err)
